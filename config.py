@@ -18,6 +18,8 @@ chrome_bin = None
 
 load_dotenv()
 
+headless = os.getenv('HEADLESS') == 'true'
+
 
 def init_web_env():
     '''

@@ -22,11 +22,10 @@ def start():
     chrome_options.add_argument("--headless")
     chrome_options.binary_location = config.chrome_bin
 
-    driver = webdriver.Chrome()
-
-    # driver = webdriver.Chrome(
-    #     executable_path=config.chrome_driver_bin,
-    #     chrome_options=chrome_options)
+    driver = webdriver.Chrome(
+        executable_path=config.chrome_driver_bin,
+        chrome_options=chrome_options
+    ) if config.headless else webdriver.Chrome()
 
     driver.implicitly_wait(10)
     logger.info('Selenium started')

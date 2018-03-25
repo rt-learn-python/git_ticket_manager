@@ -12,11 +12,12 @@ logger = logger.instance
 
 
 def exists(ticket_id):
-    projects_list = projects.list()
-    for project in projects_list:
-        if project['tickets']:
-            for ticket in project['tickets']:
-                if ticket['ticket'] == ticket_id:
+    projects = config.main['projects']
+    for project, project_detail in projects.items():
+        logger.debug(project)
+        if project_detail['tickets']:
+            for ticket, ticket_detail in project_detail['tickets'].items():
+                if ticket == ticket_id:
                     return True
     return False
 
@@ -41,12 +42,12 @@ def list_with_branches(project):
         print('\tNo ticket.')
 
 
-def add(ticket_id, branch, desc):
+def add(ticket_id, desc, branch):
     '''
     Creates a new ticket and sets as the current.
     '''
     logger.info('Creating new ticket...')
-    logger.info('Tickect ID: {}'.format(ticket_id))
+    logger.info('Ticket ID: {}'.format(ticket_id))
     logger.info('Description: {}'.format(desc))
     logger.info('Branch: {}'.format(branch))
     logger.debug('Current Folder: {}'.format(os.getcwd()))

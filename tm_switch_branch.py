@@ -52,9 +52,8 @@ def create_default_branch(ticket_id):
     logger.info('Page loaded.')
     jira_web.login(web.driver)
     logger.info('Logged in to jira')
-    driver.quit()
-
-    branch, desc = jira_web.extract_info()
+    branch, desc = jira_web.extract_info(ticket_id)
+    tickets.add(ticket_id, desc, branch)
 
 
 main()
