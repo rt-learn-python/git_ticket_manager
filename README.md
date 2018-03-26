@@ -35,12 +35,11 @@ $ deactivate
 
 ```
 $ pip install pyyaml selenium python-dotenv coverage
-
 ```
 
 
 
 ## Issues
 
-
-The whole menu thing is making it complicated.  Should probably better to resort to small functions.
+1. Initially designed to have a menu in the console but it is making it complicated.  Changed approach to use small functions.
+- PyInstall was considered...

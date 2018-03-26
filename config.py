@@ -3,7 +3,9 @@ import sys
 import yaml
 
 from dotenv import load_dotenv
+
 import logger
+
 
 logger = logger.instance
 
@@ -16,7 +18,8 @@ password = None
 chrome_driver_bin = None
 chrome_bin = None
 
-load_dotenv()
+env_path = os.path.dirname(os.path.realpath(__file__))
+load_dotenv(dotenv_path=env_path)
 
 headless = os.getenv('HEADLESS') == 'true'
 
