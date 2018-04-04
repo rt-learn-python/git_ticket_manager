@@ -15,17 +15,21 @@ def init(p_logger):
     logger = p_logger
 
 
-def start():
+def start(headless=True):
     global driver
 
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.binary_location = config.chrome_bin
-
-    driver = webdriver.Chrome(
-        executable_path=config.chrome_driver_bin,
-        chrome_options=chrome_options
-    ) if config.headless else webdriver.Chrome()
+    if not headless:
+        webdriver.Chrome()
+    elif config.headless:
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.binary_location = config.chrome_bin
+        driver = webdriver.Chrome(
+            executable_path=config.chrome_driver_bin,
+            chrome_options=chrome_options
+        )
+    else:
+        webdriver.Chrome()
 
     driver.implicitly_wait(10)
     logger.info('Selenium started')

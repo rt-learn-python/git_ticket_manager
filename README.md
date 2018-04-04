@@ -43,3 +43,6 @@ $ pip install pyyaml selenium python-dotenv coverage
 
 1. Initially designed to have a menu in the console but it is making it complicated.  Changed approach to use small functions.
 - PyInstall was considered...
+
+
+## Edge case, card where you need to modify multiple repositories.

@@ -18,7 +18,7 @@ password = None
 chrome_driver_bin = None
 chrome_bin = None
 
-env_path = os.path.dirname(os.path.realpath(__file__))
+env_path = os.path.dirname(os.path.realpath(__file__)) + '/.env'
 load_dotenv(dotenv_path=env_path)
 
 headless = os.getenv('HEADLESS') == 'true'

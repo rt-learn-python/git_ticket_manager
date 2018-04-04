@@ -1,6 +1,26 @@
 from screen import *
 import config
 import tickets
+import logger
+
+
+# Globals
+logger = logger.instance
+
+
+def current_base_branch():
+    '''
+    Return the curret base branch of the project owner of the current ticket.
+    '''
+    config.load()
+    current_ticket_id = config.main['current_ticket_id']
+    projects = config.main['projects']
+    for project, project_detail in projects.items():
+        project_tickets = project_detail['tickets']
+        if project_tickets and current_ticket_id in project_tickets:
+            branches = project_detail['branches']
+            return branches['base']
+    return None
 
 
 def print_with_tickets_and_branches():
