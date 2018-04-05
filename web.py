@@ -19,7 +19,7 @@ def start(headless=True):
     global driver
 
     if not headless:
-        webdriver.Chrome()
+        driver = webdriver.Chrome()
     elif config.headless:
         chrome_options = Options()
         chrome_options.add_argument("--headless")
@@ -29,7 +29,7 @@ def start(headless=True):
             chrome_options=chrome_options
         )
     else:
-        webdriver.Chrome()
+        driver = webdriver.Chrome()
 
     driver.implicitly_wait(10)
     logger.info('Selenium started')

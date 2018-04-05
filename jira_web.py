@@ -23,7 +23,7 @@ def enter_username():
 
 
 def enter_password():
-    password = config.password
+    password = config.jira_password
     password_element = driver.find_element_by_id('login-form-password')
     password_element.clear()
     password_element.send_keys(password)

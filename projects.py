@@ -8,6 +8,13 @@ import logger
 logger = logger.instance
 
 
+def current_name():
+    '''
+    Assumes you are in the project root and returns the current folder name.
+    '''
+    return os.path.basename(os.getcwd())
+
+
 def current_base_branch():
     '''
     Return the curret base branch of the project owner of the current ticket.

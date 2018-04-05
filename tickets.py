@@ -28,7 +28,7 @@ def prompt_create_branch(ticket_id):
             prompt_for_branch(ticket_id)
         else:
             set_current_ticket(ticket_id, 1)
-            switch_to_lone_branch(ticket_id)
+            switch_to_lone_branch()
 
 
 def create_default_branch(ticket_id):
@@ -44,7 +44,7 @@ def create_default_branch(ticket_id):
     add(ticket_id, desc, branch)
 
 
-def switch_to_lone_branch(ticket_id):
+def switch_to_lone_branch():
     call(['git', 'checkout', current()['branches'][0]])
 
 
@@ -117,6 +117,7 @@ def add(ticket_id, desc, branch):
 def set_current_ticket(ticket_id, branch_index):
     config.main['current_branch_index'] = branch_index
     config.main['current_ticket_id'] = ticket_id
+    config.save()
 
 
 def _create_first_ticket(project_name, new_ticket):

@@ -13,8 +13,12 @@ logger = logger.instance
 main = None
 home_folder = os.environ['HOME']
 CONFIG_FILE = '{}/tickets.yml'.format(home_folder)
-username = None
-password = None
+
+jira_username = None
+jira_password = None
+tc_username = None
+tc_password = None
+
 chrome_driver_bin = None
 chrome_bin = None
 
@@ -28,15 +32,19 @@ def init_web_env():
     '''
     Initialize environment variables in preparation for web interaction.
     '''
-    global username
-    global password
+    global jira_username
+    global jira_password
+    global tc_username
+    global tc_password
     global chrome_driver_bin
     global chrome_bin
 
-    username = os.getenv('JIRA_USERNAME')
-    password = os.getenv('JIRA_PASSWORD')
+    jira_username = os.getenv('JIRA_USERNAME')
+    tc_username = os.getenv('TC_USERNAME')
+    jira_password = os.getenv('JIRA_PASSWORD')
+    tc_password = os.getenv('TC_PASSWORD')
 
-    if not password:
+    if not jira_password:
         global logger
         logger.error(
             'Jira password was not found in the environment variables.')
