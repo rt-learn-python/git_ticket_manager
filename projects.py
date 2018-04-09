@@ -1,3 +1,4 @@
+import subprocess
 from screen import *
 import config
 import tickets
@@ -6,6 +7,62 @@ import logger
 
 # Globals
 logger = logger.instance
+
+
+config.load()
+
+
+def detect_current_branch():
+    result = subprocess.run(['git', 'branch'], stdout=subprocess.PIPE)
+    # print(result)
+    # print(filter(None, result.stdout.decode('utf-8').split('\n')))
+    # print(result.stdout.decode('utf-8').split('\n'))
+    lines = result.stdout.decode('utf-8').split('\n')
+    return [x[2:].strip() for x in lines if x.strip().startswith('*')][0]
+
+
+def current_ticket_id():
+    return current()['current_ticket_id']
+
+
+def ticket_with_branch(branch):
+    project_tickets = current()['tickets']
+    for ticket, ticket_detail in project_tickets.items():
+        if branch in ticket_detail['branches']:
+            ticket_detail['id'] = ticket
+            return ticket_detail
+
+
+def ticket_at_index(choice):
+    project_tickets = current()['tickets']
+    counter = 1
+    for ticket, ticket_detail in project_tickets.items():
+        if counter == choice:
+            return ticket
+        counter += 1
+
+
+def print_tickets_for_select():
+    project_tickets = current()['tickets']
+    counter = 1
+    for ticket, ticket_detail in project_tickets.items():
+        print('{} {}: {}'.format(
+            counter, ticket, ticket_detail['description']))
+        counter += 1
+
+
+def current():
+    '''
+    Returns the current project detail
+    '''
+    return config.main['projects'][current_name()]
+
+
+def merge_branch():
+    '''
+    Returns the current project merge branch
+    '''
+    return current()['branches']['merge']
 
 
 def current_name():
@@ -70,7 +127,6 @@ def list_with_tickets():
         tickets.list_with_branches(project)
     else:
         printhr()
-
 
 
 def print_tickets(project_detail):

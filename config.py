@@ -54,8 +54,11 @@ def init_web_env():
     chrome_bin = os.getenv('CHROME_BIN')
 
 
+def project_detail(project_name):
+    return main['projects'].get(project_name)
+
+
 def load():
-    global CONFIG_FILE
     global main
 
     with open(CONFIG_FILE) as file:
@@ -65,6 +68,5 @@ def load():
 
 
 def save():
-    global main
     with open(CONFIG_FILE, 'w') as outfile:
         yaml.dump({'main': main}, outfile, default_flow_style=False)

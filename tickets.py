@@ -217,15 +217,19 @@ def print_list():
 
 
 def show_current():
-    print('Current Ticket:')
-    printhr()
-    print('{}: {}\nBranch: {}'
-          .format(
-              config.main['current_ticket_id'],
-              current()['description'],
-              current_branch_name()
-          ))
-    printhr()
+    project_detail = config.project_detail(projects.current_name())
+    if project_detail:
+        print('Current Ticket:')
+        printhr()
+        print('{}: {}\nBranch: {}'
+              .format(
+                  project_detail['current_ticket_id'],
+                  current()['description'],
+                  current_branch_name()
+              ))
+        printhr()
+    else:
+        print('Current directory is not registered.')
 
 
 def current():
@@ -233,12 +237,13 @@ def current():
     Return the curret ticket detail based or the currently set
     current_ticket_id.
     '''
-    current_ticket_id = config.main['current_ticket_id']
-    projects = config.main['projects']
-    for project, project_detail in projects.items():
-        project_tickets = project_detail['tickets']
-        if project_tickets and current_ticket_id in project_tickets:
-            return project_tickets[current_ticket_id]
+    project_detail = projects.current()
+    current_ticket_id = project_detail['current_ticket_id']
+    project_tickets = project_detail['tickets']
+    if project_tickets and current_ticket_id in project_tickets:
+        ticket = project_tickets[current_ticket_id]
+        ticket['id'] = current_ticket_id
+        return ticket
     return None
 
 
@@ -246,7 +251,8 @@ def current_branch_name():
     '''
     Retrieve current branch name from config.
     '''
-    current_branch_index = config.main['current_branch_index'] or 1
+    project_detail = projects.current()
+    current_branch_index = project_detail['current_branch_index'] or 1
     ticket = current()
     branches = ticket['branches']
     for i in range(0, len(branches)):
