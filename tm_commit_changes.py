@@ -6,7 +6,6 @@ import sys
 import re
 
 import projects
-import tickets
 import config
 
 
@@ -47,4 +46,3 @@ def commit():
 
 config.load()
 main()
-

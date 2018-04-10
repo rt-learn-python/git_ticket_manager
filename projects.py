@@ -14,9 +14,6 @@ config.load()
 
 def detect_current_branch():
     result = subprocess.run(['git', 'branch'], stdout=subprocess.PIPE)
-    # print(result)
-    # print(filter(None, result.stdout.decode('utf-8').split('\n')))
-    # print(result.stdout.decode('utf-8').split('\n'))
     lines = result.stdout.decode('utf-8').split('\n')
     return [x[2:].strip() for x in lines if x.strip().startswith('*')][0]
 
