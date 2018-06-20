@@ -44,14 +44,23 @@ def init_web_env():
     jira_password = os.getenv('JIRA_PASSWORD')
     tc_password = os.getenv('TC_PASSWORD')
 
+    chrome_driver_bin = os.getenv('CHROME_DRIVER_BIN')
+    chrome_bin = os.getenv('CHROME_BIN')
+
+
+def check_jira_password_exists():
     if not jira_password:
-        global logger
         logger.error(
             'Jira password was not found in the environment variables.')
         sys.exit(1)
 
-    chrome_driver_bin = os.getenv('CHROME_DRIVER_BIN')
-    chrome_bin = os.getenv('CHROME_BIN')
+
+def check_tc_password_exists():
+    if not tc_password:
+        logger.error(
+            'Team City password was not found in the environment variable '
+            'TC_PASSWORD.')
+        sys.exit(1)
 
 
 def project_detail(project_name):

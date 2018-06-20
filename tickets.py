@@ -1,13 +1,12 @@
 import projects
 import config
-from screen import *
-import sys
 import logger
+from datetime import datetime
 
-
-from subprocess import call
+import git_wrapper as git
 import web
 import jira_web
+import os
 
 
 # Requires that configuration file have already been loaded by the main script.
@@ -15,25 +14,10 @@ import jira_web
 logger = logger.instance
 
 
-def switch_branch(ticket_id):
-    prompt_create_branch(ticket_id)
-
-
-def prompt_create_branch(ticket_id):
-    new_branch = input('Do you want to create a new branch [Ny]? ') or 'n'
-    if new_branch.lower() == 'y':
-        create_another_branch(ticket_id)
-    else:
-        if is_multi_branch(ticket_id):
-            prompt_for_branch(ticket_id)
-        else:
-            set_current_ticket(ticket_id, 1)
-            switch_to_lone_branch()
-
-
-def create_default_branch(ticket_id):
+def create(ticket_id):
     logger.info('create default branch')
     config.init_web_env()
+    config.check_jira_password_exists()
     web.start()
     driver = web.driver
     driver.get('https://jira.amaysim.net/browse/{}'.format(ticket_id))
@@ -42,41 +26,25 @@ def create_default_branch(ticket_id):
     logger.info('Logged in to jira')
     branch, desc = jira_web.extract_info(ticket_id)
     add(ticket_id, desc, branch)
+    config.save()
 
 
-def switch_to_lone_branch():
-    call(['git', 'checkout', current()['branches'][0]])
+def switch_ticket(ticket_id, create=False):
+    if create:
+        git.checkout(projects.current_base_branch())
+        git.pull()
+    git.checkout(current()['branch'], create)
 
 
 def exists(ticket_id):
-    projects = config.main['projects']
-    for project, project_detail in projects.items():
+    project_list = projects.current()
+    for project, project_detail in project_list.items():
         logger.debug(project)
         if project_detail['tickets']:
             for ticket, ticket_detail in project_detail['tickets'].items():
                 if ticket == ticket_id:
                     return True
     return False
-
-
-def is_multi_branch(ticket_id):
-    pass
-
-
-def list_with_branches(project):
-    tickets = project['tickets']
-    if tickets:
-        for ticket in tickets:
-            print('\t{}: {}'.format(
-                ticket['ticket'],
-                ticket['description']
-            ))
-            branches = ticket['branches']
-            for branch in branches:
-                print('\t\t{}'.format(branch['branch']))
-
-    else:
-        print('\tNo ticket.')
 
 
 def add(ticket_id, desc, branch):
@@ -102,22 +70,18 @@ def add(ticket_id, desc, branch):
 
     logger.debug("Project name: {}".format(project_name))
 
-    branch_index = 1
     if projects.get(project_name):
-        branch_index = _create_additional_ticket(project_name, new_ticket)
+        _create_additional_ticket(project_name, new_ticket)
     else:
         _create_first_ticket(project_name, new_ticket)
 
-    set_current_ticket(ticket_id, branch_index or 1)
-
-    config.save()
+    set_current_ticket(ticket_id)
     logger.info("New ticket created.")
 
 
-def set_current_ticket(ticket_id, branch_index):
-    config.main['current_branch_index'] = branch_index
-    config.main['current_ticket_id'] = ticket_id
-    config.save()
+def set_current_ticket(ticket_id):
+    project_detail = projects.current()
+    project_detail['current_ticket_id'] = ticket_id
 
 
 def _create_first_ticket(project_name, new_ticket):
@@ -127,10 +91,8 @@ def _create_first_ticket(project_name, new_ticket):
     logger.info('Creating new project...')
     branch_base = input('Enter the base branch name: ')
     branch_merge = input('Enter the merge branch name: ')
-    new_ticket['branches'] = [new_ticket['branch']]
     ticket_id = new_ticket['id']
     del new_ticket['id']
-    del new_ticket['branch']
 
     print(ticket_id)
     print(new_ticket)
@@ -154,36 +116,10 @@ def _create_additional_ticket(project_name, new_ticket):
     logger.info('Adding {} to {}'.format(ticket_id, project_name))
     project_detail = config.main['projects'][project_name]
     tickets = project_detail['tickets']
-    new_ticket['branches'] = [new_ticket['branch']]
+    new_ticket['date_created'] = datetime.now()
     del new_ticket['id']
-    del new_ticket['branch']
     tickets[ticket_id] = new_ticket
-
-
-def _create_additional_branch(ticket_id, branch):
-    '''
-    Create a another branch for an existing ticket.
-    '''
-    pass
-
-
-def choose_branch():
-    '''
-    Select a ticket branch:
-    '''
-    projects.print_with_tickets_and_branches()
-    sys.exit()
-
-    while True:
-        print_for_select()
-        print('q. quit')
-        chosen = input('Enter # of preferred ticket: ')
-        if chosen == 'q':
-            do_loop = False
-        elif chosen in tickets_for_select.keys():
-            config['main']['current_ticket_id'] = tickets_for_select[chosen]
-            do_loop = False
-            tickets.show_current()
+    logger.debug(tickets[ticket_id])
 
 
 def print_for_select(project):
@@ -221,11 +157,14 @@ def show_current():
     if project_detail:
         print('Current Ticket:')
         printhr()
+
+        current_ticket = current()
+
         print('{}: {}\nBranch: {}'
               .format(
                   project_detail['current_ticket_id'],
-                  current()['description'],
-                  current_branch_name()
+                  current_ticket['description'],
+                  current_ticket['branch']
               ))
         printhr()
     else:
@@ -234,7 +173,7 @@ def show_current():
 
 def current():
     '''
-    Return the curret ticket detail based or the currently set
+    Return the curret ticket detail based on the currently set
     current_ticket_id.
     '''
     project_detail = projects.current()
@@ -245,16 +184,3 @@ def current():
         ticket['id'] = current_ticket_id
         return ticket
     return None
-
-
-def current_branch_name():
-    '''
-    Retrieve current branch name from config.
-    '''
-    project_detail = projects.current()
-    current_branch_index = project_detail['current_branch_index'] or 1
-    ticket = current()
-    branches = ticket['branches']
-    for i in range(0, len(branches)):
-        if i == current_branch_index - 1:
-            return branches[i]

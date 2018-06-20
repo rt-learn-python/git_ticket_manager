@@ -16,7 +16,7 @@ def login(web_driver):
 
 
 def enter_username():
-    username = config.username
+    username = config.jira_username
     username_element = driver.find_element_by_id('login-form-username')
     username_element.clear()
     username_element.send_keys(username)
@@ -57,5 +57,7 @@ def _translate_to_branch(id, description):
     return 'feature/{}-{}'.format(
         id,
         description.replace(' - ', '-')
+        .replace('.', '_')
+        .replace('/', '')
         .replace(' ', '-')
-        .replace("'", ''))
+        .replace("'", '').rstrip('_'))

@@ -9,6 +9,8 @@ import teamcity_web
 import config
 
 import tickets
+import projects
+
 
 # Globals
 driver = None
@@ -18,10 +20,12 @@ def main():
     config.load()
 
     confirm_current_project()
-    yN = input('Delete stack at night [Yn]? ): ')
+    yN = input('Delete stack at night [Y/n]? ): ')
     pattern = re.compile("[yY]+")
 
     config.init_web_env()
+    config.check_tc_password_exists()
+
     web.start(False)
     global driver
     driver = web.driver
@@ -41,7 +45,7 @@ def main():
 
 def calc_app_version():
     project_path = os.getcwd()
-    feature_id = config.main['current_ticket_id']
+    feature_id = projects.current_ticket_id()
     meta = json.load(open('{}/meta.json'.format(project_path)))
 
     return "{}-{}-SNAPSHOT".format(
@@ -51,7 +55,7 @@ def calc_app_version():
 
 def confirm_current_project():
     tickets.show_current()
-    answer = input('Proceed [Yn]? ')
+    answer = input('Proceed with current ticket [Y/n]? ')
     if answer.lower() == 'n':
         print('Aborted.')
         sys.exit(1)

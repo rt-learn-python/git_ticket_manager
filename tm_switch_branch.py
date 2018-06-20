@@ -24,17 +24,20 @@ def main():
     else:
         projects.print_tickets_for_select()
         choice = input('Enter ticket line number or ticket ID: ')
-        pattern = re.compile("\d+")
+        pattern = re.compile(r"\d+")
 
         if pattern.match(choice):
             ticket_id = projects.ticket_at(choice)
         else:
             ticket_id = choice
 
-    if projects.ticket_exists(ticket_id):
-        tickets.switch_branch(ticket_id)
-    else:
-        tickets.create_default_branch(ticket_id)
+    tickets.set_current_ticket(ticket_id)
+
+    do_create = not projects.ticket_exists(ticket_id)
+    if do_create:
+        tickets.create(ticket_id)
+
+    tickets.switch_ticket(ticket_id, do_create)
 
 
 main()

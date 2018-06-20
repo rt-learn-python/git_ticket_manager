@@ -12,10 +12,18 @@ logger = logger.instance
 config.load()
 
 
+def ticket_exists(ticket_id):
+    return ticket_id in current()['tickets']
+
+
 def detect_current_branch():
     result = subprocess.run(['git', 'branch'], stdout=subprocess.PIPE)
     lines = result.stdout.decode('utf-8').split('\n')
     return [x[2:].strip() for x in lines if x.strip().startswith('*')][0]
+
+
+def switch_to_base():
+    pass
 
 
 def current_ticket_id():
@@ -55,7 +63,7 @@ def current():
     return config.main['projects'][current_name()]
 
 
-def merge_branch():
+def current_merge_branch():
     '''
     Returns the current project merge branch
     '''
@@ -71,17 +79,9 @@ def current_name():
 
 def current_base_branch():
     '''
-    Return the curret base branch of the project owner of the current ticket.
+    Returns the current project merge branch
     '''
-    config.load()
-    current_ticket_id = config.main['current_ticket_id']
-    projects = config.main['projects']
-    for project, project_detail in projects.items():
-        project_tickets = project_detail['tickets']
-        if project_tickets and current_ticket_id in project_tickets:
-            branches = project_detail['branches']
-            return branches['base']
-    return None
+    return current()['branches']['base']
 
 
 def print_with_tickets_and_branches():
@@ -109,7 +109,7 @@ def new():
     branch_base = input('Enter the base branch: (defaults to master)')
     branch_merge = input('Enter the merge branch: (defaults to master) ')
 
-    confirm = input('Are the values you entered correct [yN]? ')
+    confirm = input('Are the values you entered correct [y/N]? ')
     if confirm.lower() == 'y':
         create_project(project_name, branch_base, branch_merge)
 

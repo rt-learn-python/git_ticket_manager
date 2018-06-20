@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-from subprocess import call
 import projects
 import tickets
 import pyperclip
+import git_wrapper as git
 
 
 def main():
@@ -14,7 +14,7 @@ def main():
     ticket = tickets.current()
 
     pyperclip.copy('{}: {}'.format(ticket['id'], ticket['description']))
-    call(['hub', 'pull-request', '-b', projects.merge_branch(), '-o'])
+    git.pull_request(projects.current_merge_branch(), browse=True)
 
 
 main()

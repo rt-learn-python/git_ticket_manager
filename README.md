@@ -38,6 +38,11 @@ $ pip install pyyaml selenium python-dotenv coverage
 ```
 
 
+## Limitations
+
+Supports a single branch per ticket only, to avoid the complexity.
+If I need multiple branch, I can manually create it and manually update the tickets.yml.
+
 
 ## Issues
 

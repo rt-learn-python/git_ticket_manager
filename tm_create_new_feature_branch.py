@@ -5,6 +5,8 @@ import re
 import projects
 import tickets
 
+import git_wrapper as git
+
 # TODO: Check if branch already present in .git/config, abort and notify if it
 # is.
 
@@ -33,7 +35,7 @@ def main():
     feature_branch = tickets.current_branch_name()
     print('Feature branch: {}\n'.format(feature_branch))
 
-    yN = input('Continue creating new branch [yN]? ')
+    yN = input('Continue creating new branch [y/N]? ')
 
     pattern = re.compile("[yY]+")
     if pattern.match(yN):
@@ -45,9 +47,9 @@ def main():
 def create_branch(base, feature):
     print('Creating branch via git commands...')
 
-    call(['git', 'checkout', base])
-    call(['git', 'pull'])
-    call(['git', 'checkout', '-b', feature])
+    git.checkout(base)
+    git.pull()
+    git.checkout(feature, create=True)
 
 
 main()

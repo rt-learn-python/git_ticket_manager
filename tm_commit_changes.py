@@ -6,13 +6,19 @@ import sys
 import re
 
 import projects
+import tickets
 import config
+
+import logger
+
+
+logger = logger.instance
 
 
 def main():
     subprocess.call(['git', 'status'])
 
-    yN = input('Continue committing staged file(s) [yN]? ') or 'n'
+    yN = input('Continue committing staged file(s) [y/N]? ') or 'n'
 
     ticket_id = projects.current_ticket_id()
     print('Ticket ID: {}'.format(ticket_id))
@@ -25,12 +31,8 @@ def main():
 
 
 def commit():
-    branch_name = projects.detect_current_branch()
-    ticket_detail = projects.ticket_with_branch(branch_name)
-
-    commit_title = '{}: {}'.format(
-        ticket_detail['id'],
-        ticket_detail['description'])
+    ticket_detail = tickets.current()
+    commit_title = '{}'.format(ticket_detail['description'])
 
     print('Commit title: {}'.format(commit_title))
     commit_description = input('Commit description: ')
