@@ -8,6 +8,8 @@ import web
 import jira_web
 import os
 
+import screen
+
 
 # Requires that configuration file have already been loaded by the main script.
 
@@ -156,7 +158,7 @@ def show_current():
     project_detail = config.project_detail(projects.current_name())
     if project_detail:
         print('Current Ticket:')
-        printhr()
+        screen.printhr()
 
         current_ticket = current()
 
@@ -166,7 +168,7 @@ def show_current():
                   current_ticket['description'],
                   current_ticket['branch']
               ))
-        printhr()
+        screen.printhr()
     else:
         print('Current directory is not registered.')
 

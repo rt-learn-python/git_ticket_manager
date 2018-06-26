@@ -13,4 +13,4 @@ def printhr():
 def clear():
     if platform.system() == 'Darwin':
         os.system("clear")
-        os.system("printf '\e[3J'")
+        os.system(r"printf '\e[3J'")

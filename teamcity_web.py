@@ -1,6 +1,3 @@
-import os
-import json
-
 import config
 import logger
 
@@ -48,7 +45,7 @@ def collapse_dev_branch_section():
 
 def click_run_button():
     run_element = driver.find_elements_by_xpath(
-        '//*[@id="bt543-div"]/table/tbody/tr/td[3]/span/button[1]')[0]
+        '//*[@id="bt543-div"]/table/tbody/tr/td[2]/span/button[1]')[0]
     run_element.click()
 
 
@@ -76,7 +73,7 @@ def keep_stack_indefinitely():
         delete_element.click()
 
 
-def toggle_shark_on():
-    shark_element = driver.find_element_by_xpath(
-        '//*[@id="parameter_TOGGLE_SHARK"]/option[2]')
-    shark_element.click()
+def toggle_kill_flexi_on():
+    kill_flexi_element = driver.find_element_by_xpath(
+        '//*[@id="parameter_TOGGLE_KILL_FLEXI"]')
+    kill_flexi_element.click()
