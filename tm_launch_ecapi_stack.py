@@ -28,6 +28,9 @@ def main():
     config.init_web_env()
     config.check_tc_password_exists()
 
+    app_version = calc_app_version()
+    logger.info('Codebase: {}'.format(app_version))
+
     web.start(False)
     global driver
     driver = web.driver
@@ -36,9 +39,8 @@ def main():
     teamcity_web.login(web.driver)
 
     teamcity_web.collapse_dev_branch_section()
+
     teamcity_web.click_run_button()
-    app_version = calc_app_version()
-    logger.info('Codebase: {}'.format(app_version))
 
     teamcity_web.set_code_base(app_version)
     if pattern.match(yN):
