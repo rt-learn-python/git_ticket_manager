@@ -1,0 +1,16 @@
+altgraph==0.15
+astroid==1.6.2
+coverage==4.5.1
+future==0.16.0
+isort==4.3.4
+lazy-object-proxy==1.3.1
+macholib==1.9
+mccabe==0.6.1
+pefile==2017.11.5
+PyInstaller==3.3.1
+pylint==1.8.3
+python-dotenv==0.8.2
+PyYAML==3.12
+selenium==3.11.0
+six==1.11.0
+wrapt==1.10.11

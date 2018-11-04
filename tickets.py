@@ -84,6 +84,7 @@ def add(ticket_id, desc, branch):
 def set_current_ticket(ticket_id):
     project_detail = projects.current()
     project_detail['current_ticket_id'] = ticket_id
+    config.save()
 
 
 def _create_first_ticket(project_name, new_ticket):

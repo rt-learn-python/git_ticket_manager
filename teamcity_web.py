@@ -45,7 +45,7 @@ def collapse_dev_branch_section():
 
 def click_run_button():
     run_element = driver.find_elements_by_xpath(
-        '//*[@id="bt543-div"]/table/tbody/tr/td[2]/span/button[1]')[0]
+        '//*[@id="bt543-div"]/table/tbody/tr/td[3]/span/button[1]')[0]
     run_element.click()
 
 
