@@ -35,6 +35,8 @@ def switch_ticket(ticket_id, create=False):
     if create:
         git.checkout(projects.current_base_branch())
         git.pull()
+
+    print(current())
     git.checkout(current()['branch'], create)
 
 
@@ -118,6 +120,8 @@ def _create_additional_ticket(project_name, new_ticket):
     ticket_id = new_ticket['id']
     logger.info('Adding {} to {}'.format(ticket_id, project_name))
     project_detail = config.main['projects'][project_name]
+    if 'tickets' not in project_detail:
+        project_detail['tickets'] = {}
     tickets = project_detail['tickets']
     new_ticket['date_created'] = datetime.now()
     del new_ticket['id']

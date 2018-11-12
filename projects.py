@@ -1,8 +1,7 @@
 import subprocess
-from screen import *
 import config
-import tickets
 import logger
+import os
 
 
 # Globals
@@ -13,7 +12,11 @@ config.load()
 
 
 def ticket_exists(ticket_id):
-    return ticket_id in current()['tickets']
+    print(current())
+    if 'tickets' in current():
+        tickets = current()['tickets']
+        return tickets is not None and ticket_id in tickets
+    return False
 
 
 def detect_current_branch():
@@ -41,9 +44,9 @@ def ticket_with_branch(branch):
 def ticket_at_index(choice):
     project_tickets = current()['tickets']
     counter = 1
-    for ticket, ticket_detail in project_tickets.items():
+    for _ticket, ticket_detail in project_tickets.items():
         if counter == choice:
-            return ticket
+            return ticket_detail
         counter += 1
 
 
@@ -60,7 +63,11 @@ def current():
     '''
     Returns the current project detail
     '''
-    return config.main['projects'][current_name()]
+    projects = config.main['projects']
+    if current_name() not in projects:
+        create_project(current_name(), 'master', 'master')
+
+    return projects[current_name()]
 
 
 def current_merge_branch():
@@ -84,16 +91,6 @@ def current_base_branch():
     return current()['branches']['base']
 
 
-def print_with_tickets_and_branches():
-    '''
-    Used for selecting ticket and branch
-    '''
-    projects = config.main['projects']
-
-    for project in projects:
-        print('{} {}'.format(index, name))
-
-
 def list():
     '''
     Return list of projects.
@@ -114,37 +111,11 @@ def new():
         create_project(project_name, branch_base, branch_merge)
 
 
-def list_with_tickets():
-    '''
-    List projects with tickets for viewing only.
-    '''
-    project_list = config.main['projects']
-    for project in project_list:
-        print(project['project'])
-        tickets.list_with_branches(project)
-    else:
-        printhr()
-
-
-def print_tickets(project_detail):
-    '''
-    print tickets of the given project dict.
-    '''
-    tickets = project_detail['tickets']
-    if tickets:
-        for id, ticket_detail in tickets.items():
-            print('\t{}: {}'.format(id, ticket_detail['description']))
-    else:
-        print('\tNo ticket for this project.')
-
-
 def create_project(project_name, branch_base, branch_merge):
     config.main['projects'][project_name] = {
         'branches': {
             'base': branch_base or 'master',
             'merge': branch_merge or 'master'
-        },
-        'path': '~/projects/{}'.format(project_name),
-        'tickets': None
+        }
     }
     config.save()
