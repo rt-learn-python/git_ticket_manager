@@ -5,6 +5,11 @@ We can work with multiple projects, each project can have multiple tickets, with
 
 ## Development
 
+To install this project on a new machine, pull dependencies by running: (NOTE that this will install these libraries globally)
+
+pip3 install -r requirements.txt
+
+
 ### Virtual environments
 
 #### Set Up virtual environment
