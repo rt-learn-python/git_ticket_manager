@@ -14,10 +14,9 @@ main = None
 home_folder = os.environ['HOME']
 CONFIG_FILE = '{}/tickets.yml'.format(home_folder)
 
+jira_url = None
 jira_username = None
 jira_password = None
-tc_username = None
-tc_password = None
 
 chrome_driver_bin = None
 chrome_bin = None
@@ -32,17 +31,15 @@ def init_web_env():
     '''
     Initialize environment variables in preparation for web interaction.
     '''
+    global jira_url
     global jira_username
     global jira_password
-    global tc_username
-    global tc_password
     global chrome_driver_bin
     global chrome_bin
 
+    jira_url = os.getenv('JIRA_URL')
     jira_username = os.getenv('JIRA_USERNAME')
-    tc_username = os.getenv('TC_USERNAME')
     jira_password = os.getenv('JIRA_PASSWORD')
-    tc_password = os.getenv('TC_PASSWORD')
 
     chrome_driver_bin = os.getenv('CHROME_DRIVER_BIN')
     chrome_bin = os.getenv('CHROME_BIN')
@@ -55,14 +52,6 @@ def check_jira_password_exists():
         sys.exit(1)
 
 
-def check_tc_password_exists():
-    if not tc_password:
-        logger.error(
-            'Team City password was not found in the environment variable '
-            'TC_PASSWORD.')
-        sys.exit(1)
-
-
 def project_detail(project_name):
     return main['projects'].get(project_name)
 
@@ -70,12 +59,15 @@ def project_detail(project_name):
 def load():
     global main
 
-    with open(CONFIG_FILE) as file:
-        main = yaml.load(file)['main']
-
-    # pprint(tickets['main'])
+    try:
+        with open(CONFIG_FILE) as file:
+            main = yaml.load(file)['main']
+    except Exception as e:
+        main = {
+            'projects': {}
+        }
 
 
 def save():
-    with open(CONFIG_FILE, 'w') as outfile:
+    with open(CONFIG_FILE, 'w+') as outfile:
         yaml.dump({'main': main}, outfile, default_flow_style=False)

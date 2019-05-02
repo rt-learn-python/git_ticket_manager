@@ -22,7 +22,7 @@ def create(ticket_id):
     config.check_jira_password_exists()
     web.start()
     driver = web.driver
-    driver.get('https://jira.amaysim.net/browse/{}'.format(ticket_id))
+    driver.get('{}/browse/{}'.format(config.jira_url, ticket_id))
     logger.info('Page loaded.')
     jira_web.login(web.driver)
     logger.info('Logged in to jira')
@@ -44,8 +44,9 @@ def exists(ticket_id):
     project_list = projects.current()
     for project, project_detail in project_list.items():
         logger.debug(project)
-        if project_detail['tickets']:
-            for ticket, ticket_detail in project_detail['tickets'].items():
+        project_tickets = project_detail['tickets']
+        if project_tickets:
+            for ticket, ticket_detail in project_tickets.items():
                 if ticket == ticket_id:
                     return True
     return False

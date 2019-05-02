@@ -32,7 +32,9 @@ def main():
 
 def commit():
     ticket_detail = tickets.current()
-    commit_title = '{}'.format(ticket_detail['description'])
+    jira_id = ticket_detail['id']
+    jira_desc = ticket_detail['description']
+    commit_title = '{}: {}'.format(jira_id, jira_desc)
 
     print('Commit title: {}'.format(commit_title))
     commit_description = input('Commit description: ')
