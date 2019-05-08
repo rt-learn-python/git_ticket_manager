@@ -62,7 +62,7 @@ def load():
     try:
         with open(CONFIG_FILE) as file:
             main = yaml.safe_load(file)['main']
-    except Exception as e:
+    except Exception:
         main = {
             'projects': {}
         }

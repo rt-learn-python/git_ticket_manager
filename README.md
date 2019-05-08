@@ -1,8 +1,7 @@
 # Overview
 
-We can work with multiple projects, each project can have multiple tickets, with
- only one active at a time.  Each ticket can have multiple branches.
-
+Simplifies git workflow by formatting jira description as the default branch name,
+commit title, and pull-request title.
 
 ## Prerequisites
 
@@ -12,11 +11,39 @@ We can work with multiple projects, each project can have multiple tickets, with
 ## Setting Up as User
 
 1. Clone or fork this repo
-- cd to the project folder
-- Run `pip3 install -r requirements.txt`
+2. cd to the project folder
+3. Run `pip3 install -r requirements.txt`
 
+## Usage
 
+    1. Switch branch new or old. If not existing, it will create a branch named
+    feature/JIRA-001-description-here based on the jira description.
 
+```shell
+tm_checkout_branch <ticket_id>
+```
+
+    2. Commit changes. You need to stage some changes first manually, then this will
+    prompt you for optional commit description.  Commit title will be the jira
+    description.
+
+```shell
+tm_commit.py
+```
+
+    3. Push changes. This will push your branch and set the current upstream to
+    this branch so will let you use just `git push` for any subsequent commits.
+
+```shell
+tm_push.py
+```
+
+    3. Create pull request. Jira description will be stored in the clipboard
+    which you can then use as title for this PR.
+
+```shell
+tm_pr.py
+```
 
 ## Development
 
@@ -55,4 +82,3 @@ If I need multiple branch, I can manually create it and manually update the tick
 ## Issues
 
 1. PyInstall was considered...
-
