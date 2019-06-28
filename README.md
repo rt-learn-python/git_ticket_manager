@@ -13,6 +13,7 @@ commit title, and pull-request title.
 1. Clone or fork this repo
 2. cd to the project folder
 3. Run `pip3 install -r requirements.txt`
+4. Create the .env file from .env.template
 
 ## Usage
 
