@@ -126,6 +126,8 @@ def _create_additional_ticket(project_name, new_ticket):
     tickets = project_detail['tickets']
     new_ticket['date_created'] = datetime.now()
     del new_ticket['id']
+    if tickets is None:
+        tickets = {}
     tickets[ticket_id] = new_ticket
     logger.debug(tickets[ticket_id])
 

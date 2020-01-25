@@ -83,3 +83,4 @@ If I need multiple branch, I can manually create it and manually update the tick
 ## Issues
 
 1. PyInstall was considered...
+2. chromedriver needs to be manually updated once in a while depending on your chrome version.
