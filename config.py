@@ -24,7 +24,11 @@ chrome_bin = None
 env_path = os.path.dirname(os.path.realpath(__file__)) + '/.env'
 load_dotenv(dotenv_path=env_path)
 
+reviewers = os.getenv('REVIEWERS')
 headless = os.getenv('HEADLESS') == 'true'
+
+# This should be manually done in the terminal.
+jira_body = os.getenv('JIRA_BODY')
 
 
 def init_web_env():

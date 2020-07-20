@@ -1,3 +1,4 @@
+import config
 
 from subprocess import call
 
@@ -10,10 +11,16 @@ def checkout(branch, create=False):
     _call(command)
 
 
-def pull_request(branch, browse=False):
-    command = ['hub', 'pull-request', '-b', branch]
+def pull_request(branch, id, title, browse=False):
+    command = ['hub', 'pull-request', '-b', branch, '-r', config.reviewers,
+               '-l', 'WIP',
+               '-m', '''{}
+
+[JIRA](https://jira.amaysim.net/browse/{})'''.format(title, id)]
+
     if browse:
         command.append('-o')
+
     _call(command)
 
 

@@ -40,7 +40,9 @@ tm_push.py
 ```
 
     3. Create pull request. Jira description will be stored in the clipboard
-    which you can then use as title for this PR.
+    which you can then use as title for this PR. Default reviewers will be
+    assigned as specified in the `REVIEWERS` env variable. WIP label will also
+    be applied.
 
 ```shell
 tm_pr.py
