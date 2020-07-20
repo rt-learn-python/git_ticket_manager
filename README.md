@@ -20,62 +20,62 @@ commit title, and pull-request title.
     1. Switch branch new or old. If not existing, it will create a branch named
     feature/JIRA-001-description-here based on the jira description.
 
-```shell
-tm_checkout_branch <ticket_id>
-```
+    ```shell
+    tm_checkout_branch <ticket_id>
+    ```
 
     2. Commit changes. You need to stage some changes first manually, then this will
     prompt you for optional commit description.  Commit title will be the jira
     description.
 
-```shell
-tm_commit.py
-```
+    ```shell
+    tm_commit.py
+    ```
 
     3. Push changes. This will push your branch and set the current upstream to
     this branch so will let you use just `git push` for any subsequent commits.
 
-```shell
-tm_push.py
-```
+    ```shell
+    tm_push.py
+    ```
 
     3. Create pull request. Jira description will be stored in the clipboard
     which you can then use as title for this PR. Default reviewers will be
     assigned as specified in the `REVIEWERS` env variable. WIP label will also
     be applied.
 
-```shell
-tm_pr.py
-```
+    ```shell
+    tm_pr.py
+    ```
 
 ## Development
 
 To install this project on a new machine, pull dependencies by running: (NOTE
 that this will install these libraries globally)
 
-```bash
-pip3 install -r requirements.txt
-```
+    ```bash
+    pip3 install -r requirements.txt
+    ```
 
 ### Virtual environments
 
 #### Set Up virtual environment
 
-```bash
-virtualenv venv
-```
+    ```bash
+    virtualenv venv
+    ```
 
 #### Activate virtual environment
 
-```bash
-source venv/bin/activate
-```
+    ```bash
+    source venv/bin/activate
+    ```
 
 #### Leave the virtual environment
 
-```bash
-deactivate
-```
+    ```bash
+    deactivate
+    ```
 
 ## Limitations
 
