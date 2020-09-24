@@ -1,4 +1,4 @@
-import config
+# import config
 
 from subprocess import call
 
@@ -12,7 +12,11 @@ def checkout(branch, create=False):
 
 
 def pull_request(branch, id, title, browse=False):
-    command = ['hub', 'pull-request', '-b', branch, '-r', config.reviewers,
+    # command = ['hub', 'pull-request', '-b', branch, '-r', config.reviewers,
+    #            '-l', 'WIP',
+    #            '-m', '''{}
+
+    command = ['hub', 'pull-request', '-b', branch,
                '-l', 'WIP',
                '-m', '''{}
 
