@@ -4,8 +4,12 @@ import logger
 from datetime import datetime
 
 import git_wrapper as git
-import web
-import jira_web
+
+# import web
+# import jira_web
+
+import web_safari as web
+import jira_web_safari as jira_web
 import os
 
 import screen
