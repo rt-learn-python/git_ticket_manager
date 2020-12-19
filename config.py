@@ -26,6 +26,7 @@ load_dotenv(dotenv_path=env_path)
 
 reviewers = os.getenv('REVIEWERS')
 headless = os.getenv('HEADLESS') == 'true'
+session_filepath = os.getenv('SESSION_FILEPATH')
 
 # This should be manually done in the terminal.
 jira_body = os.getenv('JIRA_BODY')

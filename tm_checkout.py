@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Integrates with external session. plist file is expected at
+# env.SESSION_FILEPATH. Will set the current project to BSS when checking out
+# from a mobile-bss folder.
+#
 # Create a another branch for an existing ticket or to create a new branch
 # altogether if it does not exist yet.  You must be in the correct project
 # folder because this script will read that.
@@ -11,6 +15,10 @@ import config
 import re
 import logger
 
+# Used modify external session's current project.
+import os
+import subprocess
+
 
 # Globals
 logger = logger.instance
@@ -18,6 +26,13 @@ logger = logger.instance
 
 def main():
     config.load()
+
+    if 'bss' in os.getcwd():
+        try:
+            subprocess.call(['plutil', '-replace', 'Current Project', '-string', 'Mobile BSS',config.session_filepath])
+            subprocess.call(['plutil', '-replace', 'Current Project Key', '-string', 'bss',config.session_filepath])
+        except Exception:
+            pass
 
     if len(sys.argv) > 1:
         ticket_id = sys.argv[1]

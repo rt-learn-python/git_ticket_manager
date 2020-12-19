@@ -8,6 +8,7 @@ macholib==1.9
 mccabe==0.6.1
 pefile==2017.11.5
 pylint==1.8.3
+pyperclip==1.8.1
 python-dotenv==0.8.2
 PyYAML==5.1
 selenium==3.11.0
