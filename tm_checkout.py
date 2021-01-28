@@ -29,8 +29,14 @@ def main():
 
     if 'bss' in os.getcwd():
         try:
-            subprocess.call(['plutil', '-replace', 'Current Project', '-string', 'Mobile BSS',config.session_filepath])
-            subprocess.call(['plutil', '-replace', 'Current Project Key', '-string', 'bss',config.session_filepath])
+            subprocess.call([
+                'plutil', '-replace', 'Current Project', '-string',
+                'Mobile BSS', config.session_filepath])
+
+            subprocess.call([
+                'plutil', '-replace', 'Current Project Key', '-string', 'bss',
+                config.session_filepath])
+
         except Exception:
             pass
 

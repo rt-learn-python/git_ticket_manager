@@ -74,6 +74,7 @@ def _translate_to_branch(id, description):
         id,
         description.replace(" - ", "-")
         .replace(".", "_")
+        .replace(",", "_")
         .replace("/", "")
         .replace(": ", "-")
         .replace(" ", "-")
