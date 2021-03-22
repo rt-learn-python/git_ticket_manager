@@ -41,7 +41,7 @@ def main():
             pass
 
     if len(sys.argv) > 1:
-        ticket_id = sys.argv[1]
+        ticket_id = sys.argv[1].upper()
     else:
         projects.print_tickets_for_select()
         choice = input('Enter ticket line number or ticket ID: ')
