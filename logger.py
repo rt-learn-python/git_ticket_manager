@@ -1,10 +1,10 @@
 import logging
 
 instance = logging.getLogger('ticket_manager')
-instance.setLevel(logging.DEBUG)
+instance.setLevel(logging.INFO)
 
 ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+# ch.setLevel(logging.DEBUG)
 
 formatter = logging.Formatter(
     '%(asctime)s - %(levelname)s {%(pathname)s:%(lineno)d} - %(message)s',

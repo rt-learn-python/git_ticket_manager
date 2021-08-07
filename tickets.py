@@ -5,14 +5,16 @@ from datetime import datetime
 
 import git_wrapper as git
 
-import web
-import jira_web
+# import web
+# import jira_web
+import util
 
 # Safari is very unreliable to automate.
 # import web_safari as web
 # import jira_web_safari as jira_web
 
 import os
+import subprocess
 
 import screen
 
@@ -22,17 +24,33 @@ import screen
 logger = logger.instance
 
 
-def create(ticket_id):
-    logger.info('create default branch')
-    config.init_web_env()
-    config.check_jira_password_exists()
-    web.start()
-    driver = web.driver
-    driver.get('{}/browse/{}'.format(config.jira_url, ticket_id))
-    logger.info('Page loaded.')
-    jira_web.login(web.driver)
-    logger.info('Logged in to jira')
-    branch, desc = jira_web.extract_info(ticket_id)
+def create(ticket_id, givenDesc=None):
+    if givenDesc is None:
+        logger.info('create default branch')
+
+        # config.init_web_env()
+        # config.check_jira_password_exists()
+        # web.start()
+        # driver = web.driver
+        # driver.get('{}/browse/{}'.format(config.jira_url, ticket_id))
+        # logger.info('Page loaded.')
+        # jira_web.login(web.driver)
+        # logger.info('Logged in to jira')
+        # branch, desc = jira_web.extract_info(ticket_id)
+
+        subprocess.call(["osascript",
+                         config.as_filepath +
+                         '/Read JIRA Summary.applescript'])
+
+        desc_raw = subprocess.check_output(
+                                        ['defaults', 'read',
+                                            config.session_plist,
+                                            'Current Ticket Description'])
+        desc = desc_raw.decode('utf-8').rstrip()
+    else:
+        desc = givenDesc
+
+    branch = util.translate_to_branch(ticket_id, desc)
     add(ticket_id, desc, branch)
     config.save()
 

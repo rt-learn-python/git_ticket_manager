@@ -1,5 +1,6 @@
 import config
 import logger
+import util
 
 
 driver = None
@@ -34,17 +35,20 @@ def submit_login():
     submit_element.click()
 
 
-def extract_info(ticket_id):
+def extract_info(ticket_id, preferred_summary=None):
     """
     Assumes you are on a ticket page and returns the calculated branch name
     and the formatted ticket description.
     """
-    desc_element = driver.find_element_by_id("summary-val")
-    logger.debug(desc_element.text[desc_element.text.index(" ") + 1:])
+    if preferred_summary is None:
+        desc_element = driver.find_element_by_id("summary-val")
+        desc = desc_element.text
+        # logger.debug(desc_element.text[desc_element.text.index(" ") + 1:])
+    else:
+        desc = preferred_summary
 
     return (
-        _translate_to_branch(ticket_id, desc_element.text),
-        desc_element.text)
+        util.translate_to_branch(ticket_id, desc), desc)
 
 
 # def print_summary(ticket_id):
@@ -54,19 +58,3 @@ def extract_info(ticket_id):
 #     desc_element = driver.find_element_by_id('summary-val')
 #     logger.info(translate_to_branch(ticket_id, desc_element.text))
 #     logger.info('{}: {}'.format(ticket_id, desc_element.text))
-
-
-def _translate_to_branch(id, description):
-    return "feature/{}-{}".format(
-        id,
-        description.replace(" - ", "-")
-        .replace(".", "_")
-        .replace(",", "_")
-        .replace("/", "")
-        .replace("[", "(")
-        .replace("]", ")")
-        .replace(": ", "-")
-        .replace(" ", "-")
-        .replace("'", "")
-        .rstrip("_"),
-    )

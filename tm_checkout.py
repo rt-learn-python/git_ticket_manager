@@ -27,21 +27,30 @@ logger = logger.instance
 def main():
     config.load()
 
+    session_filepath = config.session_plist + '.plist'
     if 'bss' in os.getcwd():
         try:
             subprocess.call([
                 'plutil', '-replace', 'Current Project', '-string',
-                'Mobile BSS', config.session_filepath])
+                'Mobile BSS', session_filepath])
 
             subprocess.call([
                 'plutil', '-replace', 'Current Project Key', '-string', 'bss',
-                config.session_filepath])
+                session_filepath])
 
         except Exception:
             pass
 
+    ticket_desc = None
     if len(sys.argv) > 1:
         ticket_id = sys.argv[1].upper()
+
+        subprocess.call([
+            'plutil', '-replace', 'Current Ticket', '-string',
+            ticket_id, session_filepath])
+
+        if len(sys.argv) > 2:
+            ticket_desc = sys.argv[2]
     else:
         projects.print_tickets_for_select()
         choice = input('Enter ticket line number or ticket ID: ')
@@ -56,7 +65,7 @@ def main():
 
     do_create = not projects.ticket_exists(ticket_id)
     if do_create:
-        tickets.create(ticket_id)
+        tickets.create(ticket_id, ticket_desc)
 
     tickets.switch_ticket(ticket_id, do_create)
 
