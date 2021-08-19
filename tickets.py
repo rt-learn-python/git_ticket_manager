@@ -15,6 +15,7 @@ import util
 
 import os
 import subprocess
+import sys
 
 import screen
 
@@ -53,6 +54,30 @@ def create(ticket_id, givenDesc=None):
     branch = util.translate_to_branch(ticket_id, desc)
     add(ticket_id, desc, branch)
     config.save()
+
+
+def delete_ticket(ticket_id):
+    '''
+    Delete the ticket_id from the config.
+    '''
+    logger.info('Deleting ticket...')
+    logger.info('Ticket ID: {}'.format(ticket_id))
+    logger.debug('Current Folder: {}'.format(os.getcwd()))
+
+    config.load()
+
+    projects = config.main['projects']
+    project_name = os.path.basename(os.getcwd())
+
+    logger.debug("Project name: {}".format(project_name))
+
+    project_detail = projects.get(project_name)
+    if project_detail:
+        tickets = project_detail['tickets']
+        result = tickets.pop(ticket_id, None)
+        if result:
+            config.save()
+            logger.info("Ticket deleted.")
 
 
 def switch_ticket(ticket_id, create=False):
