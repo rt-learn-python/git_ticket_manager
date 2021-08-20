@@ -12,7 +12,6 @@ config.load()
 
 
 def ticket_exists(ticket_id):
-    print(current())
     if 'tickets' in current():
         tickets = current()['tickets']
         return tickets is not None and ticket_id in tickets

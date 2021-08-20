@@ -15,7 +15,6 @@ import util
 
 import os
 import subprocess
-import sys
 
 import screen
 
@@ -28,16 +27,6 @@ logger = logger.instance
 def create(ticket_id, givenDesc=None):
     if givenDesc is None:
         logger.info('create default branch')
-
-        # config.init_web_env()
-        # config.check_jira_password_exists()
-        # web.start()
-        # driver = web.driver
-        # driver.get('{}/browse/{}'.format(config.jira_url, ticket_id))
-        # logger.info('Page loaded.')
-        # jira_web.login(web.driver)
-        # logger.info('Logged in to jira')
-        # branch, desc = jira_web.extract_info(ticket_id)
 
         subprocess.call(["osascript",
                          config.as_filepath +
@@ -85,7 +74,6 @@ def switch_ticket(ticket_id, create=False):
         git.checkout(projects.current_base_branch())
         git.pull()
 
-    print(current())
     git.checkout(current()['branch'], create)
 
 
@@ -148,9 +136,6 @@ def _create_first_ticket(project_name, new_ticket):
     branch_merge = input('Enter the merge branch name: ')
     ticket_id = new_ticket['id']
     del new_ticket['id']
-
-    print(ticket_id)
-    print(new_ticket)
 
     config.main['projects'][project_name] = {
         'branches': {
