@@ -64,7 +64,10 @@ def current():
     '''
     projects = config.main['projects']
     if current_name() not in projects:
-        create_project(current_name(), 'master', 'master')
+        base_branch = 'main'
+        if current_name() in config.racist_folders.split(','):
+            base_branch = 'master'
+        create_project(current_name(), base_branch, base_branch)
 
     return projects[current_name()]
 

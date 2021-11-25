@@ -24,6 +24,8 @@ chrome_bin = None
 env_path = os.path.dirname(os.path.realpath(__file__)) + '/.env'
 load_dotenv(dotenv_path=env_path)
 
+racist_folders = os.getenv('RACIST_FOLDERS')
+
 reviewers = os.getenv('REVIEWERS')
 headless = os.getenv('HEADLESS') == 'true'
 session_filepath = os.getenv('SESSION_FILEPATH')
