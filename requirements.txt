@@ -10,7 +10,7 @@ pefile==2017.11.5
 pylint==1.8.3
 pyperclip==1.8.1
 python-dotenv==0.8.2
-PyYAML==5.4
-selenium-base==1.51.0
+PyYAML==6.0
+# selenium-base==1.51.0
 six==1.11.0
 wrapt==1.10.11
