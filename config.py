@@ -28,8 +28,8 @@ racist_folders = os.getenv('RACIST_FOLDERS')
 
 reviewers = os.getenv('REVIEWERS')
 headless = os.getenv('HEADLESS') == 'true'
-session_filepath = os.getenv('SESSION_FILEPATH')
 session_plist = os.getenv('SESSION_PLIST')
+session_filepath = session_plist + '.plist'
 as_filepath = os.getenv('AS_FILEPATH')
 
 # This should be manually done in the terminal.
