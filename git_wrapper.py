@@ -17,7 +17,7 @@ def pull_request(branch, id, title, browse=False):
     #            '-m', '''{}
 
     command = ['hub', 'pull-request', '-b', branch,
-               '-l', 'WIP', '-d'
+               '-l', 'WIP', '-d', '',
                '-m', '''{}
 
 [JIRA](https://jira.amaysim.net/browse/{})'''.format(title, id)]
