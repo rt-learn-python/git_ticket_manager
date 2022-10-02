@@ -1,3 +1,7 @@
+'''
+TODO:
+'''
+
 from selenium import webdriver
 # from selenium.webdriver.chrome.options import Options
 
@@ -5,19 +9,25 @@ from selenium import webdriver
 import logger
 
 
-# Globals
-driver = None
+# Global
+DRIVER = None
 logger = logger.instance
 
 
 def init(p_logger):
+    '''
+    TODO:
+    '''
     global logger
     logger = p_logger
 
 
 def start(headless=True):
-    global driver
+    '''
+    TODO:
+    '''
+    global DRIVER
 
-    driver = webdriver.Safari()
-    driver.implicitly_wait(30)
+    DRIVER = webdriver.Safari()
+    DRIVER.implicitly_wait(30)
     logger.info('Selenium started')

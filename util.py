@@ -1,6 +1,13 @@
-def translate_to_branch(id, description):
-    return "feature/{}-{}".format(
-        id,
+"""
+TODO:
+"""
+
+
+def translate_to_branch(ticket_id, description):
+    """
+    TODO
+    """
+    encoded_desc = (
         description.replace(" - ", "-")
         .replace(".", "_")
         .replace(",", "_")
@@ -13,3 +20,5 @@ def translate_to_branch(id, description):
         .replace("'", "")
         .rstrip("_")
     )
+
+    return f"feature/{ticket_id}-{encoded_desc}"

@@ -1,16 +1,29 @@
+"""
+TODO:
+"""
+
 import platform
 import os
 
 
-def println(text=''):
-    print(text, end='\n')
+def println(text=""):
+    """
+    TODO:
+    """
+    print(text, end="\n")
 
 
 def printhr():
-    print('-' * 80)
+    """
+    TODO:
+    """
+    print("-" * 80)
 
 
 def clear():
-    if platform.system() == 'Darwin':
+    """
+    TODO:
+    """
+    if platform.system() == "Darwin":
         os.system("clear")
         os.system(r"printf '\e[3J'")
