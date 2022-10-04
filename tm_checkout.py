@@ -91,6 +91,21 @@ def main():
 
     do_create = not projects.ticket_exists(ticket_id)
     if do_create:
+        new_ticket_desc = (
+            subprocess.check_output(
+                ["defaults", "read", config.session_plist, "New Ticket Description"]
+            )
+            .decode("utf-8")
+            .rstrip()
+        )
+
+        print(f"New Ticket Description: {new_ticket_desc}")
+        yn_response = input("Continue creating ticket with above desc [y/N]? ") or "n"
+        pattern = re.compile("[yY]+")
+        if not pattern.match(yn_response):
+            print("Ticket creation aborted.")
+            return
+
         tickets.create(ticket_id, ticket_desc)
 
     tickets.switch_ticket(ticket_id, do_create)
