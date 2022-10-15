@@ -1,7 +1,9 @@
 # Overview
 
-Simplifies git workflow by formatting jira description as the default branch name,
+Simplifies git workflow by formatting JIRA description as the default branch name,
 commit title, and pull-request title.
+
+TODO: Dockerize.
 
 ## Prerequisites
 
