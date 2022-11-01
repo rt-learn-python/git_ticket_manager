@@ -48,11 +48,9 @@ def extract_info(ticket_id):
     and the formatted ticket description.
     """
     desc_element = driver.find_element_by_id("summary-val")
-    logger.debug(desc_element.text[desc_element.text.index(" ") + 1:])
+    logger.debug(desc_element.text[desc_element.text.index(" ") + 1 :])
 
-    translated = (
-        _translate_to_branch(ticket_id, desc_element.text),
-        desc_element.text)
+    translated = (_translate_to_branch(ticket_id, desc_element.text), desc_element.text)
 
     driver.quit()
     print(translated)
