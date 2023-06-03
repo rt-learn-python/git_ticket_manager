@@ -45,6 +45,7 @@ def create(ticket_id, given_desc=None):
             ["defaults", "read", config.session_plist, "New Ticket Description"]
         )
         desc = desc_raw.decode("utf-8").rstrip()
+
     else:
         desc = given_desc
 
