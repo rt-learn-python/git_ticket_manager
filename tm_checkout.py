@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 
 """
-# Integrates with external session. plist file is expected at
-# env.SESSION_FILEPATH. Will set the current project to BSS when checking out
-# from a mobile-bss folder.
-#
-# Create a another branch for an existing ticket or to create a new branch
-# altogether if it does not exist yet.  You must be in the correct project
-# folder because this script will read that.
+Integrates with external session. plist file is expected at
+env.SESSION_FILEPATH. Will set the current project to BSS when checking out
+from a mobile-bss folder.
+
+Create a another branch for an existing ticket or to create a new branch
+altogether if it does not exist yet.  You must be in the correct project
+folder because this script will read that.
+
+@Plists:
+    session.plist
+        Current Ticket ID -
+        New Ticket Description - Used if opting for the manual user-entered description.
+        Current Ticket Description - computed by applescript based on the value of Current Ticket ID
 """
 
 # Used modify external session's current project.
@@ -91,6 +97,10 @@ def main():
 
     do_create = not projects.ticket_exists(ticket_id)
     if do_create:
+        subprocess.call(
+            ["osascript", config.as_filepath + "/Read JIRA Summary.applescript"]
+        )
+
         new_ticket_desc = (
             subprocess.check_output(
                 ["defaults", "read", config.session_plist, "New Ticket Description"]
@@ -100,6 +110,7 @@ def main():
         )
 
         print(f"New Ticket Description: {new_ticket_desc}")
+
         yn_response = input("Continue creating ticket with above desc [y/N]? ") or "n"
         pattern = re.compile("[yY]+")
         if not pattern.match(yn_response):

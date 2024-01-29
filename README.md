@@ -16,6 +16,7 @@ TODO: Dockerize.
 2. cd to the project folder
 3. Run `pip3 install -r requirements.txt`
 4. Create the .env file from .env.template
+5. (Optional) Create a symbolic link for the cloud-synced ticket.yml into ~/ticket.yml.
 
 ## Usage
 
