@@ -19,7 +19,7 @@ def checkout(branch, create=False):
     _call(command)
 
 
-def pull_request(branch, id, title, browse=False):
+def pull_request(branch, ticket_id, title, browse=False):
     """
     rtfc
     """
@@ -38,11 +38,9 @@ def pull_request(branch, id, title, browse=False):
         "-d",
         "",
         "-m",
-        """{}
+        f"""{title}
 
-[JIRA](https://jira.amaysim.net/browse/{})""".format(
-            title, id
-        ),
+[JIRA](https://jira.amaysim.net/browse/{ticket_id})""",
     ]
 
     if browse:

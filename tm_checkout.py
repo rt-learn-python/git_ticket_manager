@@ -132,5 +132,17 @@ def main():
         ]
     )
 
+    # To test on the next ticket.
+    subprocess.call(
+        [
+            "plutil",
+            "-replace",
+            "Current Branch",
+            "-string",
+            tickets.current()["branch"],
+            session_filepath,
+        ]
+    )
+
 
 main()
