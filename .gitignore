@@ -1,8 +1,19 @@
-.env
+# Ignore local development files
+*.env
+
+# Ignore any files inside the 'venv' folder (if using virtual environments)
 venv
+
+# Ignore log files
 *.log
-__pycache__
+
+# code coverage files
 .coverage
 htmlcov
+
+# distribution files
 dist
+
+# Ignore compiled Python files
 *.pyc
+__pycache__
