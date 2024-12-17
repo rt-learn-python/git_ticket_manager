@@ -3,9 +3,10 @@ TODO
 """
 
 import subprocess
+import os
+
 import config
 import logger
-import os
 
 
 # Globals
@@ -57,6 +58,8 @@ def ticket_with_branch(branch):
         if branch in ticket_detail["branches"]:
             ticket_detail["id"] = ticket
             return ticket_detail
+
+    return None
 
 
 def ticket_at_index(choice):
